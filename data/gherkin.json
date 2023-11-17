@@ -1,0 +1,15 @@
+[
+    {
+        "titulo": "Criterios de aceptación en formato Gherkin",
+        "descripcion": "Los criterios de aceptación en formato Gherkin son reglas escritas en un lenguaje específico que se utilizan para definir el comportamiento deseado de una funcionalidad de software. Gherkin es comúnmente utilizado en pruebas de aceptación automatizadas."
+    },
+    {
+        "titulo": "Ejemplo 2",
+        "descripcion": "Descripción del ejemplo 2."
+    },
+    {
+        "titulo": "Ejemplo 3",
+        "descripcion": "Descripción del ejemplo 3."
+    }
+  ]
+  

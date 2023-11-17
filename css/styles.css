@@ -1,0 +1,54 @@
+.info-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+  }
+  .info-description {
+    font-size: 18px;
+    color: #333;
+  }
+  .info-para {
+    font-size: 18px;
+    color: #333;
+  }
+  .info-quiero {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .center-text {
+    text-align: center; 
+  }
+
+  /* Estilos para el spinner */
+  .spinner {
+    border: 6px solid rgba(255, 255, 255, 0.3);
+    border-top: 6px solid #007bff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+  }
+
+  .spinner.larger {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* Estilos para el contenedor del spinner */
+  #spinner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Estilos para el contenedor de botones centrados */
+  #button-container {
+    text-align: center;
+  }

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Formulario</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Formulario del Cliente</h1>
+    <form id="myForm" class="mt-4">
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <p class="description">Selecciona una opción:</p>
+            <div class="custom-radio form-check">
+                <input type="radio" id="opcion1" name="option" value="1" class="form-check-input">
+                <label for="opcion1" class="form-check-label">Historia de usuario</label>
+            </div>
+
+            <div class="custom-radio form-check">
+                <input type="radio" id="opcion2" name="option" value="2" class="form-check-input">
+                <label for="opcion2" class="form-check-label">Casos de prueba</label>
+            </div>
+
+            <div class="custom-radio form-check">
+                <input type="radio" id="opcion3" name="option" value="3" class="form-check-input">
+                <label for="opcion3" class="form-check-label">Criterios de aceptación</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="customerNeed">Necesidad del cliente:</label>
+            <textarea id="customerNeed" name="customerNeed" class="form-control" rows="4" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="requestQuantity">Cantidad de respuestas:</label>
+          <input type="number" id="requestQuantity" name="requestQuantity" class="form-control" style="width: 50%;" required>
+        </div>
+
+        <div id="button-container" class="center-text">
+          <button type="submit" class="btn btn-primary">Enviar</button>
+          <button type="button" class="btn btn-secondary" onclick="limpiarFormulario()">Limpiar</button>
+        </div>
+    </form>
+
+    <div id="spinner-container">
+      <div id="spinner" style="display: none;">
+        <div class="spinner larger"></div>
+      </div>
+    </div>
+
+    <div id="resultContainer" class="mt-4">
+        <div id="resultList" class="list-group">
+            <!-- Aquí se insertará la información del JSON de forma estilizada -->
+        </div>
+    </div>
+
+    <!--<div class="center-text">
+        <button id="sendToJiraButton" class="btn btn-primary" disabled>Enviar a Jira</button>
+    </div>-->
+  </div>
+  
+  <script>
+    function limpiarFormulario() {
+      document.getElementById('email').value = '';
+      document.querySelector('input[name="option"]:checked').checked = false;
+      document.getElementById('customerNeed').value = '';
+      document.getElementById('requestQuantity').value = '';
+    }
+  </script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="../js/main.js"></script>
+
+  <script>
+
+    
+  </script>
+</body>
+</html>

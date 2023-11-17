@@ -1,0 +1,15 @@
+  [
+    {
+      "titulo": "Historia de usuario",
+      "descripcion": "Una historia de usuario es una descripción de una funcionalidad desde la perspectiva del usuario. Contiene los detalles necesarios para comprender cómo una funcionalidad debe comportarse y para qué se utilizará."
+    },
+    {
+        "titulo": "Ejemplo 2",
+        "descripcion": "Descripción del ejemplo 2."
+    },
+    {
+        "titulo": "Ejemplo 3",
+        "descripcion": "Descripción del ejemplo 3."
+    }
+  ]
+  
