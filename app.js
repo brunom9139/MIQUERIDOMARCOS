@@ -19,6 +19,7 @@ app.post('/', (req, res) => {
     cantidadRespuestas: req.body.cantidadRespuestas,
     mensaje: req.body.mensaje,
   };
+  console.log(requestData)
 
   fetch('http://localhost:3040/api/chagpt/message', {
     method: 'POST',

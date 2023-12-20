@@ -43,7 +43,9 @@ document.addEventListener('DOMContentLoaded', function () {
         const resultContainer = document.getElementById('resultList');
         resultContainer.innerHTML = '';
 
+        console.log(opcionSeleccionada )
         if (data.historiaDeUsuario && opcionSeleccionada === "1") {
+          console.log("Ingreso a historia de usuarios")
           data.historiaDeUsuario.forEach(item => {
             const listItem = document.createElement('div');
             listItem.classList.add('list-group-item');
@@ -52,29 +54,18 @@ document.addEventListener('DOMContentLoaded', function () {
               <div class="form-check">
                 <input type="checkbox" class="form-check-input" id="check-${item.como.replace(/ /g, '_')}" data-title="${item.como}">
                 <label class="form-check-label" for="check-${item.como.replace(/ /g, '_')}">
-                  <span class="info-title">${item.como}</span>
+                  <span class="info-title">Como: ${item.como}</span>
                 </label>
               </div>
-              <p class="info-description">${item.quiero}</p>
-              <p class="info-para">${item.para}</p>
+              <p class="info-description">Quiero : ${item.quiero}</p>
+              <p class="info-para">Para: ${item.para}</p>
             `;
-
-            /*if (item.criterios_aceptacion && item.criterios_aceptacion.length > 0) {
-              const criteriosList = document.createElement('ul');
-              criteriosList.classList.add('criterios-aceptacion');
-
-              item.criterios_aceptacion.forEach((criterio, index) => {
-                const criterioItem = document.createElement('li');
-                criterioItem.textContent = `${index + 1}) ${criterio}`;
-                criteriosList.appendChild(criterioItem);
-              });
-              listItem.appendChild(criteriosList);
-            }*/
             resultContainer.appendChild(listItem);
           });
         }
 
         if (data.casos_prueba && opcionSeleccionada === "2") {
+          console.log("Ingreso a casos de pruebas")
           data.casos_prueba.forEach(item => {
               const listItem = document.createElement('div');
               listItem.classList.add('list-group-item');
@@ -86,13 +77,14 @@ document.addEventListener('DOMContentLoaded', function () {
                           <span class="info-title">${item.titulo}</span>
                       </label>
                   </div>
+                  <span class="info-subtitle">Descripción</span>
                   <p class="info-description">${item.descripcion}</p>
+                  <span class="info-subtitle">Prencondicion</span>
               `;
-      
+    
               if (item.preCondicion && item.preCondicion.length > 0) {
                   const precondicionList = document.createElement('ul');
                   precondicionList.classList.add('precondicion');
-      
                   item.preCondicion.forEach((precondicion, index) => {
                       const precondicionItem = document.createElement('li');
                       precondicionItem.textContent = precondicion;
@@ -100,22 +92,32 @@ document.addEventListener('DOMContentLoaded', function () {
                   });
                   listItem.appendChild(precondicionList);
               }
-      
               if (item.pasos && item.pasos.length > 0) {
-                  const pasosList = document.createElement('ol');
-                  pasosList.classList.add('pasos');
-      
-                  item.pasos.forEach((paso, index) => {
-                      const pasoItem = document.createElement('li');
-                      pasoItem.textContent = paso;
-                      pasosList.appendChild(pasoItem);
-                  });
-                  listItem.appendChild(pasosList);
-              }
-
+                const pasosList = document.createElement('ol');
+                pasosList.classList.add('pasos');
+            
+                // Agregar el subtítulo "Pasos"
+                const pasosSubtitle = document.createElement('span');
+                pasosSubtitle.classList.add('info-subtitle');
+                pasosSubtitle.textContent = 'Pasos';
+                listItem.appendChild(pasosSubtitle);
+            
+                item.pasos.forEach((paso, index) => {
+                    const pasoItem = document.createElement('li');
+                    pasoItem.textContent = paso;
+                    pasosList.appendChild(pasoItem);
+                });
+                listItem.appendChild(pasosList);
+            }
+             
               if (item.resultadosEsperados && item.resultadosEsperados.length > 0) {
                 const resultadosList = document.createElement('ol');
                 resultadosList.classList.add('resultados');
+
+                const resultadoSubtitle = document.createElement('span');
+                resultadoSubtitle.classList.add('info-subtitle');
+                resultadoSubtitle.textContent = 'Resultados Esperados';
+                listItem.appendChild(resultadoSubtitle);
     
                 item.resultadosEsperados.forEach((resultado, index) => {
                     const resultadoItem = document.createElement('li');
@@ -125,54 +127,50 @@ document.addEventListener('DOMContentLoaded', function () {
                 listItem.appendChild(resultadosList);
             }
       
-              /*if (item.resultadosEsperados) {
-                  const resultadoEsperado = document.createElement('p');
-                  resultadoEsperado.textContent = `Resultado Esperado: ${item.resultado_esperado}`;
-                  listItem.appendChild(resultadoEsperado);
-              }*/
-      
               resultContainer.appendChild(listItem);
           });
         }
 
-        if(data.historiaDeUsuario && opcionSeleccionada === "3"){
+        if(data.criteriosDeAceptacion && opcionSeleccionada === "3"){
           console.log(JSON.stringify(data));
-          data.historiaDeUsuario.forEach(item => {
-            const listItem = document.createElement('div');
-            listItem.classList.add('list-group-item');
-    
-            listItem.innerHTML = `
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="check-${item.como.replace(/ /g, '_')}" data-title="${item.como}">
-                    <label class="form-check-label" for="check-${item.como.replace(/ /g, '_')}">
-                        <span class="info-title">${item.como}</span>
-                    </label>
-                </div>
-                <p class="info-quiero">${item.quiero}</p>
-                <p class="info-para">${item.para}</p>
-            `;
-            
+          console.log("Ingreso al opcion Criterios")
+         
+           
+        
             // Agregar la sección de criterios de aceptación como lista ordenada
-            if (item.criteriosDeAceptacion && item.criteriosDeAceptacion.length > 0) {
-              const criteriosList = document.createElement('ol');
-              criteriosList.classList.add('criterios');
+           // Agregar la sección de criterios de aceptación como lista ordenada
+if (data.criteriosDeAceptacion && data.criteriosDeAceptacion.length > 0) {
+  const criteriosList = document.createElement('ol');
+  criteriosList.classList.add('criterios');
 
-              item.criteriosDeAceptacion.forEach(criterio => {
-                const criterioItem = document.createElement('li');
-                criterioItem.innerHTML = `
-                  <strong>Dado:</strong> ${criterio.dado}<br>
-                  <strong>Cuando:</strong> ${criterio.cuando}<br>
-                  <strong>Entonces:</strong> ${criterio.entonces}
-                `;
-                criteriosList.appendChild(criterioItem);
-              });
+  data.criteriosDeAceptacion.forEach((criterio, index) => {
+      const listItem = document.createElement('li');
+      listItem.classList.add('list-group-item');
 
-              listItem.appendChild(criteriosList);
-            }
+      const checkboxId = `check-${criterio.dado.replace(/ /g, '_')}`;
+      
+      listItem.innerHTML = `
+          <div class="form-check">
+              <input type="checkbox" class="form-check-input" id="${checkboxId}" data-title="Criterio Aceptación #${index + 1}">
+              <label class="form-check-label" for="${checkboxId}">
+                  <span class="info-title">Criterio Aceptación #${index + 1}</span>
+              </label>
+          </div>
+          <strong>Dado:</strong> ${criterio.dado}<br>
+          <strong>Cuando:</strong> ${criterio.cuando}<br>
+          <strong>Entonces:</strong> ${criterio.entonces}
+      `;
 
-            resultContainer.appendChild(listItem);
+      criteriosList.appendChild(listItem);
+  });
 
-        });
+  resultContainer.appendChild(criteriosList);
+}
+
+
+           
+
+      
         }
 
         spinner.style.display = 'none';
@@ -241,21 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       });
   
-      /*console.log(JSON.stringify(datosSeleccionados, null, 2));
-  
-      fetch('http://192.168.100.24:3040/api/chagpt/jira', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(datosSeleccionados, null, 2),
-      }).then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('Error al obtener los datos:', error);
-        });*/
+    
     }
 
     if (tipo2Radio.checked) {
@@ -300,25 +284,10 @@ document.addEventListener('DOMContentLoaded', function () {
           precondiciones,
           pasos,
           resultados
-          //resultado_esperado: resultadoEsperadoText
         });
       });
 
-      /*console.log(JSON.stringify(datosSeleccionados, null, 2));
-  
-      fetch('http://192.168.100.24:3040/api/chagpt/jira', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(datosSeleccionados, null, 2),
-      }).then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('Error al obtener los datos:', error);
-        });*/
+   
     }
 
 
@@ -348,21 +317,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       });
 
-      /*console.log(JSON.stringify(datosSeleccionados, null, 2));
   
-      fetch('http://192.168.100.24:3040/api/chagpt/jira', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(datosSeleccionados, null, 2),
-      }).then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('Error al obtener los datos:', error);
-        });*/
     }
 
     
@@ -370,6 +325,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if(tipo1Radio.checked || tipo2Radio.checked || tipo3Radio.checked){
       console.log(JSON.stringify(datosSeleccionados, null, 2));
   
+  
       fetch('http://192.168.100.24:3040/api/chagpt/jira', {
         method: 'POST',
         headers: {
@@ -379,6 +335,170 @@ document.addEventListener('DOMContentLoaded', function () {
       }).then(response => response.json())
         .then(data => {
           console.log(data);
+     
+          mostrarToast('Tarjetas Creadas En Jira Correctamente');
+        })
+        .catch(error => {
+          console.error('Error al obtener los datos:', error);
+        });
+    }
+
+  }
+
+  function mostrarToast(message) {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+  
+    toastMessage.textContent = message;
+    toast.classList.add('show');
+  
+    // Ocultar el toast después de 3 segundos
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 6000);
+  }
+
+  function obtenerDatosSeleccionadosExcel() {
+    const tipo1Radio = document.getElementById('opcion1');
+    const tipo2Radio = document.getElementById('opcion2');
+    const tipo3Radio = document.getElementById('opcion3');
+
+    const datosSeleccionados = [];
+
+    if (tipo1Radio.checked) {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');  
+      checkboxes.forEach(checkbox => {
+        const listItem = checkbox.closest('.list-group-item');
+        const nombre = listItem.querySelector('.info-title').textContent;
+        const descripcion = listItem.querySelector('.info-description').textContent;
+  
+        const criterios = [];
+        const criteriosList = listItem.querySelector('.criterios-aceptacion');
+        if (criteriosList) {
+          criteriosList.querySelectorAll('li').forEach(criterioItem => {
+            criterios.push(criterioItem.textContent);
+          });
+        }
+  
+        datosSeleccionados.push({
+          nombre,
+          descripcion,
+          criterios
+        });
+      });
+  
+    
+    }
+
+    if (tipo2Radio.checked) {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    
+      checkboxes.forEach(checkbox => {
+        const listItem = checkbox.closest('.list-group-item');
+        const nombre = listItem.querySelector('.info-title').textContent;
+        const descripcion = listItem.querySelector('.info-description').textContent;
+    
+        const precondiciones = [];
+        const precondicionList = listItem.querySelector('.precondicion');
+        if (precondicionList) {
+          precondicionList.querySelectorAll('li').forEach(precondicionItem => {
+            precondiciones.push(precondicionItem.textContent);
+          });
+        }
+    
+        const pasos = [];
+        const pasosList = listItem.querySelector('.pasos');
+        if (pasosList) {
+          pasosList.querySelectorAll('li').forEach(pasoItem => {
+            pasos.push(pasoItem.textContent);
+          });
+        }
+
+        const resultados = [];
+        const resultadosList = listItem.querySelector('.resultados');
+        if (resultadosList) {
+          resultadosList.querySelectorAll('li').forEach(resultadoItem => {
+            resultados.push(resultadoItem.textContent);
+          });
+        }
+    
+      
+        datosSeleccionados.push({
+          nombre,
+          descripcion,
+          precondiciones,
+          pasos,
+          resultados
+        });
+      });
+    }
+
+
+    if (tipo3Radio.checked) {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      //const datosSeleccionados = [];
+    
+      checkboxes.forEach(checkbox => {
+        const listItem = checkbox.closest('.list-group-item');
+        const como = listItem.querySelector('.info-title').textContent;
+        const quiero = listItem.querySelector('.info-quiero').textContent;
+        const para = listItem.querySelector('.info-para').textContent;
+
+        const criteriosDeAceptacion = [];
+        const criteriosList = listItem.querySelector('.criterios');
+        if (criteriosList) {
+          criteriosList.querySelectorAll('li').forEach(criterioItem => {
+            criteriosDeAceptacion.push(criterioItem.textContent);
+          });
+        }
+    
+        datosSeleccionados.push({
+          como,
+          quiero,
+          para,
+          criteriosDeAceptacion,
+        });
+      });
+
+    }
+
+    
+
+    if(tipo1Radio.checked || tipo2Radio.checked || tipo3Radio.checked){
+      console.log(JSON.stringify(datosSeleccionados, null, 2));
+
+  
+      fetch('http://192.168.100.24:3040/api/chagpt/excel', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(datosSeleccionados, null, 2),
+      })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.blob();
+        })
+        .then(blob => {
+          // Crear un enlace temporal y configurar su URL con el Blob
+          const url = URL.createObjectURL(blob);
+      
+          // Crear un elemento de enlace y configurar sus atributos
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'CasosPruebas.xlsx'; // Puedes establecer el nombre del archivo como desees
+      
+          // Agregar el enlace al documento
+          document.body.appendChild(link);
+      
+          // Simular un clic en el enlace para iniciar la descarga
+         link.click();
+      
+          // Eliminar el enlace y liberar el objeto Blob después de la descarga
+         document.body.removeChild(link);
+          URL.revokeObjectURL(url);
         })
         .catch(error => {
           console.error('Error al obtener los datos:', error);
@@ -388,14 +508,37 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   
 
-  // Agregar un botón "Obtener Datos" al formulario
-  const obtenerDatosButton = document.createElement('button');
-  obtenerDatosButton.textContent = 'Obtener Datos y Enviar Jira';
-  obtenerDatosButton.className = 'btn btn-primary';
-  document.getElementById('resultContainer').appendChild(obtenerDatosButton);
+// Agregar un espacio entre los dos botones
+const espacio = document.createElement('span');
+espacio.innerHTML = '&nbsp;&nbsp;'; // Puedes ajustar la cantidad de espacios según sea necesario
+document.getElementById('resultContainer').appendChild(espacio);
 
-  // Escuchar el evento de clic en el botón para obtener los datos seleccionados
-  obtenerDatosButton.addEventListener('click', function () {
-    obtenerDatosSeleccionados();
-  });
+// Agregar el botón "Obtener Datos y Enviar Jira"
+const obtenerDatosButton = document.createElement('button');
+obtenerDatosButton.textContent = 'Obtener Datos y Enviar Jira';
+obtenerDatosButton.className = 'btn btn-primary';
+document.getElementById('resultContainer').appendChild(obtenerDatosButton);
+
+// Agregar un espacio adicional entre los botones
+const espacioAdicional = document.createElement('span');
+espacioAdicional.innerHTML = '&nbsp;&nbsp;';
+document.getElementById('resultContainer').appendChild(espacioAdicional);
+
+// Agregar el botón "Descargar Excel"
+const obtenerDatosButtonExcel = document.createElement('button');
+obtenerDatosButtonExcel.textContent = 'Descargar Excel';
+obtenerDatosButtonExcel.className = 'btn btn-success'; // Cambiado a color verde de WhatsApp
+document.getElementById('resultContainer').appendChild(obtenerDatosButtonExcel);
+
+// Escuchar el evento de clic en el botón para obtener los datos seleccionados
+obtenerDatosButton.addEventListener('click', function () {
+  obtenerDatosSeleccionados();
+});
+
+// Escuchar el evento de clic en el botón para obtener los datos seleccionados (Excel)
+obtenerDatosButtonExcel.addEventListener('click', function () {
+  obtenerDatosSeleccionadosExcel();
+});
+
+
 });
