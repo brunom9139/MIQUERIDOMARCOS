@@ -45,134 +45,152 @@ document.addEventListener('DOMContentLoaded', function () {
 
         console.log(opcionSeleccionada )
         if (data.historiaDeUsuario && opcionSeleccionada === "1") {
-          console.log("Ingreso a historia de usuarios")
+          console.log("Ingreso a historia de usuarios");
           data.historiaDeUsuario.forEach(item => {
-            const listItem = document.createElement('div');
-            listItem.classList.add('list-group-item');
-
-            listItem.innerHTML = `
-              <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="check-${item.como.replace(/ /g, '_')}" data-title="${item.como}">
-                <label class="form-check-label" for="check-${item.como.replace(/ /g, '_')}">
-                  <span class="info-title">Como: ${item.como}</span>
-                </label>
-              </div>
-              <p class="info-description">Quiero : ${item.quiero}</p>
-              <p class="info-para">Para: ${item.para}</p>
-            `;
-            resultContainer.appendChild(listItem);
-          });
-        }
-
-        if (data.casos_prueba && opcionSeleccionada === "2") {
-          console.log("Ingreso a casos de pruebas")
-          data.casos_prueba.forEach(item => {
               const listItem = document.createElement('div');
               listItem.classList.add('list-group-item');
       
-              listItem.innerHTML = `
-                  <div class="form-check">
-                      <input type="checkbox" class="form-check-input" id="check-${item.titulo.replace(/ /g, '_')}" data-title="${item.titulo}">
-                      <label class="form-check-label" for="check-${item.titulo.replace(/ /g, '_')}">
-                          <span class="info-title">${item.titulo}</span>
-                      </label>
-                  </div>
-                  <span class="info-subtitle">Descripción</span>
-                  <p class="info-description">${item.descripcion}</p>
-                  <span class="info-subtitle">Prencondicion</span>
+              const checkbox = document.createElement('input');
+              checkbox.type = 'checkbox';
+              checkbox.classList.add('form-check-input');
+              checkbox.id = `check-${item.como.replace(/ /g, '_')}`;
+              checkbox.setAttribute('data-title', item.como);
+      
+              const textarea = document.createElement('textarea');
+              textarea.classList.add('form-control');
+              textarea.id = `textarea-${item.como.replace(/ /g, '_')}`;
+              textarea.setAttribute('data-title', item.como);
+              textarea.rows = '3';
+              textarea.disabled = true;
+      
+              textarea.value = `Como: ${item.como}
+Quiero: ${item.quiero}
+Para: ${item.para}
               `;
-    
-              if (item.preCondicion && item.preCondicion.length > 0) {
-                  const precondicionList = document.createElement('ul');
-                  precondicionList.classList.add('precondicion');
-                  item.preCondicion.forEach((precondicion, index) => {
-                      const precondicionItem = document.createElement('li');
-                      precondicionItem.textContent = precondicion;
-                      precondicionList.appendChild(precondicionItem);
-                  });
-                  listItem.appendChild(precondicionList);
-              }
-              if (item.pasos && item.pasos.length > 0) {
-                const pasosList = document.createElement('ol');
-                pasosList.classList.add('pasos');
-            
-                // Agregar el subtítulo "Pasos"
-                const pasosSubtitle = document.createElement('span');
-                pasosSubtitle.classList.add('info-subtitle');
-                pasosSubtitle.textContent = 'Pasos';
-                listItem.appendChild(pasosSubtitle);
-            
-                item.pasos.forEach((paso, index) => {
-                    const pasoItem = document.createElement('li');
-                    pasoItem.textContent = paso;
-                    pasosList.appendChild(pasoItem);
-                });
-                listItem.appendChild(pasosList);
-            }
-             
-              if (item.resultadosEsperados && item.resultadosEsperados.length > 0) {
-                const resultadosList = document.createElement('ol');
-                resultadosList.classList.add('resultados');
-
-                const resultadoSubtitle = document.createElement('span');
-                resultadoSubtitle.classList.add('info-subtitle');
-                resultadoSubtitle.textContent = 'Resultados Esperados';
-                listItem.appendChild(resultadoSubtitle);
-    
-                item.resultadosEsperados.forEach((resultado, index) => {
-                    const resultadoItem = document.createElement('li');
-                    resultadoItem.textContent = resultado;
-                    resultadosList.appendChild(resultadoItem);
-                });
-                listItem.appendChild(resultadosList);
-            }
+      
+              checkbox.addEventListener('change', function () {
+                  textarea.disabled = !textarea.disabled;
+                  
+                  // Ajustar dinámicamente la altura del textarea después de cambiar el estado
+                  textarea.style.height = "auto";
+                  textarea.style.height = (textarea.scrollHeight) + "px";
+              });
+      
+              listItem.appendChild(checkbox);
+              listItem.appendChild(textarea);
       
               resultContainer.appendChild(listItem);
+      
+              // Ajustar dinámicamente la altura del textarea después de agregar al DOM
+              textarea.style.height = "auto";
+              textarea.style.height = (textarea.scrollHeight) + "px";
           });
-        }
-
-        if(data.criteriosDeAceptacion && opcionSeleccionada === "3"){
-          console.log(JSON.stringify(data));
-          console.log("Ingreso al opcion Criterios")
-         
-           
-        
-            // Agregar la sección de criterios de aceptación como lista ordenada
-           // Agregar la sección de criterios de aceptación como lista ordenada
-if (data.criteriosDeAceptacion && data.criteriosDeAceptacion.length > 0) {
-  const criteriosList = document.createElement('ol');
-  criteriosList.classList.add('criterios');
-
-  data.criteriosDeAceptacion.forEach((criterio, index) => {
-      const listItem = document.createElement('li');
-      listItem.classList.add('list-group-item');
-
-      const checkboxId = `check-${criterio.dado.replace(/ /g, '_')}`;
+      }
       
-      listItem.innerHTML = `
-          <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="${checkboxId}" data-title="Criterio Aceptación #${index + 1}">
-              <label class="form-check-label" for="${checkboxId}">
-                  <span class="info-title">Criterio Aceptación #${index + 1}</span>
-              </label>
-          </div>
-          <strong>Dado:</strong> ${criterio.dado}<br>
-          <strong>Cuando:</strong> ${criterio.cuando}<br>
-          <strong>Entonces:</strong> ${criterio.entonces}
-      `;
-
-      criteriosList.appendChild(listItem);
-  });
-
-  resultContainer.appendChild(criteriosList);
-}
 
 
-           
+      if (data.casos_prueba && opcionSeleccionada === "2") {
+        console.log("Ingreso a casos de prueba");
+        data.casos_prueba.forEach(item => {
+            const listItem = document.createElement('div');
+            listItem.classList.add('list-group-item');
+    
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.classList.add('form-check-input');
+            checkbox.id = `check-${item.titulo.replace(/ /g, '_')}`;
+            checkbox.setAttribute('data-title', item.titulo);
+    
+            const textarea = document.createElement('textarea');
+            textarea.classList.add('form-control');
+            textarea.id = `textarea-${item.titulo.replace(/ /g, '_')}`;
+            textarea.setAttribute('data-title', item.titulo);
+            textarea.rows = '3';
+            textarea.disabled = true;
+    
+            textarea.value = `${item.titulo}
+    
+Descripción:
+    ${item.descripcion}
+    
+Precondición:
+    ${item.preCondicion.join('\n')}
+    
+Pasos:
+    ${item.pasos.join('\n')}
+    
+Resultados Esperados:
+    ${item.resultadosEsperados.join('\n')}
+            `;
+    
+            checkbox.addEventListener('change', function () {
+                textarea.disabled = !textarea.disabled;
+    
+                // Ajustar dinámicamente la altura del textarea después de cambiar el estado
+                textarea.style.height = "auto";
+                textarea.style.height = (textarea.scrollHeight) + "px";
+            });
+    
+            listItem.appendChild(checkbox);
+            listItem.appendChild(textarea);
+    
+            resultContainer.appendChild(listItem);
+    
+            // Ajustar dinámicamente la altura del textarea después de agregar al DOM
+            textarea.style.height = "auto";
+            textarea.style.height = (textarea.scrollHeight) + "px";
+        });
+    }
+    
+    
 
-      
-        }
 
+    if (data.criteriosDeAceptacion && opcionSeleccionada === "3") {
+      console.log("Ingreso a criterios de aceptación");
+  
+      if (data.criteriosDeAceptacion && data.criteriosDeAceptacion.length > 0) {
+          data.criteriosDeAceptacion.forEach(criterio => {
+              const listItem = document.createElement('div');
+              listItem.classList.add('list-group-item');
+  
+              const checkbox = document.createElement('input');
+              checkbox.type = 'checkbox';
+              checkbox.classList.add('form-check-input');
+              checkbox.id = `check-${criterio.dado.replace(/ /g, '_')}`;
+  
+              const textarea = document.createElement('textarea');
+              textarea.classList.add('form-control');
+              textarea.id = `textarea-${criterio.dado.replace(/ /g, '_')}`;
+              textarea.setAttribute('data-title', criterio.dado);
+              textarea.rows = '3';
+              textarea.disabled = true;
+  
+              textarea.value = `Dado: ${criterio.dado}
+Cuando: ${criterio.cuando}
+Entonces: ${criterio.entonces}`;
+  
+              checkbox.addEventListener('change', function () {
+                  textarea.disabled = !textarea.disabled;
+  
+                  // Ajustar dinámicamente la altura del textarea después de cambiar el estado
+                  textarea.style.height = "auto";
+                  textarea.style.height = (textarea.scrollHeight) + "px";
+              });
+  
+              listItem.appendChild(checkbox);
+              listItem.appendChild(textarea);
+  
+              resultContainer.appendChild(listItem);
+  
+              // Ajustar dinámicamente la altura del textarea después de agregar al DOM
+              textarea.style.height = "auto";
+              textarea.style.height = (textarea.scrollHeight) + "px";
+          });
+      }
+  }
+  
+    
+    
         spinner.style.display = 'none';
       })
       .catch(error => {
@@ -203,147 +221,62 @@ if (data.criteriosDeAceptacion && data.criteriosDeAceptacion.length > 0) {
   });
 
 
-
-
-
-  // Función para obtener los datos seleccionados y mostrarlos por consola
   function obtenerDatosSeleccionados() {
-    // Verificar si el radio con value "1" (o id "opcion1") está seleccionado
+    // Obtener el valor del radio seleccionado
     const tipo1Radio = document.getElementById('opcion1');
     const tipo2Radio = document.getElementById('opcion2');
     const tipo3Radio = document.getElementById('opcion3');
 
-    const datosSeleccionados = [];
+    let tipo = 1;  // Valor predeterminado
 
     if (tipo1Radio.checked) {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      //const datosSeleccionados = [];
-  
-      checkboxes.forEach(checkbox => {
-        const listItem = checkbox.closest('.list-group-item');
-        const nombre = listItem.querySelector('.info-title').textContent;
-        const descripcion = listItem.querySelector('.info-description').textContent;
-  
-        const criterios = [];
-        const criteriosList = listItem.querySelector('.criterios-aceptacion');
-        if (criteriosList) {
-          criteriosList.querySelectorAll('li').forEach(criterioItem => {
-            criterios.push(criterioItem.textContent);
-          });
-        }
-  
-        datosSeleccionados.push({
-          nombre,
-          descripcion,
-          criterios
-        });
-      });
-  
-    
+        tipo = 1;
+    } else if (tipo2Radio.checked) {
+        tipo = 2;
+    } else if (tipo3Radio.checked) {
+        tipo = 3;
     }
 
-    if (tipo2Radio.checked) {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      //const datosSeleccionados = [];
-    
-      checkboxes.forEach(checkbox => {
-        const listItem = checkbox.closest('.list-group-item');
-        const nombre = listItem.querySelector('.info-title').textContent;
-        const descripcion = listItem.querySelector('.info-description').textContent;
-    
-        const precondiciones = [];
-        const precondicionList = listItem.querySelector('.precondicion');
-        if (precondicionList) {
-          precondicionList.querySelectorAll('li').forEach(precondicionItem => {
-            precondiciones.push(precondicionItem.textContent);
-          });
-        }
-    
-        const pasos = [];
-        const pasosList = listItem.querySelector('.pasos');
-        if (pasosList) {
-          pasosList.querySelectorAll('li').forEach(pasoItem => {
-            pasos.push(pasoItem.textContent);
-          });
-        }
+    // Obtener todas las casillas de verificación marcadas
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
 
-        const resultados = [];
-        const resultadosList = listItem.querySelector('.resultados');
-        if (resultadosList) {
-          resultadosList.querySelectorAll('li').forEach(resultadoItem => {
-            resultados.push(resultadoItem.textContent);
-          });
-        }
-    
-        //const resultadoEsperado = listItem.querySelector('.resultado-esperado');
-        //const resultadoEsperadoText = resultadoEsperado ? resultadoEsperado.textContent.replace('Resultado Esperado: ', '') : '';
-    
-        datosSeleccionados.push({
-          nombre,
-          descripcion,
-          precondiciones,
-          pasos,
-          resultados
-        });
-      });
+    // Objeto para almacenar la información de las casillas de verificación marcadas
+    const checkboxInfo = {
+        Tipo: tipo,  // 1=Historia de usuario 2 = casos de prueba 3 = criterios de aceptacion
+        contenido: []
+    };
 
-   
-    }
+    checkboxes.forEach(checkbox => {
+        const checkboxId = checkbox.id;
+        const textareaId = checkboxId.replace("check-", "textarea-");
+        const textareaValue = document.getElementById(textareaId).value;
 
+        // Agregar el contenido al array "contenido"
+        checkboxInfo.contenido.push(textareaValue);
+    });
 
-    if (tipo3Radio.checked) {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      //const datosSeleccionados = [];
-    
-      checkboxes.forEach(checkbox => {
-        const listItem = checkbox.closest('.list-group-item');
-        const como = listItem.querySelector('.info-title').textContent;
-        const quiero = listItem.querySelector('.info-quiero').textContent;
-        const para = listItem.querySelector('.info-para').textContent;
-
-        const criteriosDeAceptacion = [];
-        const criteriosList = listItem.querySelector('.criterios');
-        if (criteriosList) {
-          criteriosList.querySelectorAll('li').forEach(criterioItem => {
-            criteriosDeAceptacion.push(criterioItem.textContent);
-          });
-        }
-    
-        datosSeleccionados.push({
-          como,
-          quiero,
-          para,
-          criteriosDeAceptacion,
-        });
-      });
-
-  
-    }
-
-    
+    // Mostrar la información en la consola
+    console.log(JSON.stringify(checkboxInfo, null, 2));
+    //return checkboxInfo;
 
     if(tipo1Radio.checked || tipo2Radio.checked || tipo3Radio.checked){
-      console.log(JSON.stringify(datosSeleccionados, null, 2));
   
-  
-      fetch('http://192.168.100.24:3040/api/chagpt/jira', {
+      fetch('http://192.168.100.24:3040/api/chagpt/jira', {//ip local: ipconfig
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(datosSeleccionados, null, 2),
+        body: JSON.stringify(checkboxInfo, null, 2),
       }).then(response => response.json())
         .then(data => {
           console.log(data);
-     
           mostrarToast('Tarjetas Creadas En Jira Correctamente');
         })
         .catch(error => {
           console.error('Error al obtener los datos:', error);
         });
     }
-
-  }
+}
 
   function mostrarToast(message) {
     const toast = document.getElementById('toast');
@@ -366,6 +299,7 @@ if (data.criteriosDeAceptacion && data.criteriosDeAceptacion.length > 0) {
     const datosSeleccionados = [];
 
     if (tipo1Radio.checked) {
+      //console.log(tipo1Radio.checked);
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');  
       checkboxes.forEach(checkbox => {
         const listItem = checkbox.closest('.list-group-item');
@@ -391,6 +325,8 @@ if (data.criteriosDeAceptacion && data.criteriosDeAceptacion.length > 0) {
     }
 
     if (tipo2Radio.checked) {
+      console.log(tipo2Radio.checked);
+
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     
       checkboxes.forEach(checkbox => {
