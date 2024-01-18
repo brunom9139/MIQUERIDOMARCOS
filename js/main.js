@@ -234,7 +234,10 @@ Entonces: ${criterio.entonces}`;
     } else if (tipo2Radio.checked) {
         tipo = 2;
     } else if (tipo3Radio.checked) {
-        tipo = 3;
+      tipo = 3;
+      const checkboxInfo = recopilarInformacionCasillas(tipo);
+      abrirModal(tipo, checkboxInfo);
+      return;
     }
 
     // Obtener todas las casillas de verificación marcadas
@@ -242,7 +245,7 @@ Entonces: ${criterio.entonces}`;
 
     // Objeto para almacenar la información de las casillas de verificación marcadas
     const checkboxInfo = {
-        Tipo: tipo,  // 1=Historia de usuario 2 = casos de prueba 3 = criterios de aceptacion
+        Tipo: tipo,  // 1=Historia de usuario 2 = casos de prueba
         contenido: []
     };
 
@@ -259,7 +262,7 @@ Entonces: ${criterio.entonces}`;
     console.log(JSON.stringify(checkboxInfo, null, 2));
     //return checkboxInfo;
 
-    if(tipo1Radio.checked || tipo2Radio.checked || tipo3Radio.checked){
+    if(tipo1Radio.checked || tipo2Radio.checked){
   
       fetch('http://192.168.100.24:3040/api/chagpt/jira', {//ip local: ipconfig
         method: 'POST',
@@ -277,6 +280,104 @@ Entonces: ${criterio.entonces}`;
         });
     }
 }
+
+function abrirModal(tipo,checkboxInfo) {
+  // Crear el modal (código del modal que proporcioné en respuestas anteriores)
+  const modal = document.createElement('div');
+  modal.className = 'modal';
+
+  // Contenido del modal
+  modal.innerHTML = `
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Título del Modal</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <label for="campoInput">Campo de Entrada:</label>
+                  <input type="text" id="campoInput" required>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                  <button type="button" class="btn btn-primary" id="idDelBotonCerrarModal">Aceptar</button>
+              </div>
+          </div>
+      </div>
+  `;
+
+      const botonAceptarModal = modal.querySelector('#idDelBotonCerrarModal');
+      const campoInputModal = modal.querySelector('#campoInput'); // Nuevo campo de entrada en el modal
+
+      // Agregar evento al botón de aceptar
+      botonAceptarModal.addEventListener('click', function () {
+      // Obtener el valor del nuevo campo de entrada
+      const idJiraValue = campoInputModal.value;
+
+      // Utilizar la información recopilada anteriormente
+      console.log(JSON.stringify(checkboxInfo, null, 2));
+
+      // Agregar el nuevo campo al objeto
+      const dataToSend = {
+          IdJira: idJiraValue,
+          Tipo: tipo,
+          contenido: checkboxInfo.contenido
+      };
+
+      // Mostrar la información en la consola (asegúrate de que se recopila el campo correctamente)
+      console.log(JSON.stringify(dataToSend, null, 2));
+
+      // Código del fetch aquí
+      fetch('http://192.168.100.24:3040/api/chagpt/jira', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataToSend, null, 2), // Enviar el objeto modificado
+      }).then(response => response.json())
+          .then(data => {
+              console.log(data);
+              mostrarToast('Tarjetas Creadas En Jira Correctamente');
+          })
+          .catch(error => {
+              console.error('Error al obtener los datos:', error);
+          });
+
+      // Cerrar el modal después de realizar el fetch
+      $(modal).modal('hide');
+
+      // Eliminar el modal del DOM después de cerrarlo
+      document.body.removeChild(modal);
+  });
+
+  // Mostrar el modal
+  $(modal).modal('show');
+}
+
+function recopilarInformacionCasillas(tipo) {
+  // Obtener todas las casillas de verificación marcadas
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+  // Objeto para almacenar la información de las casillas de verificación marcadas
+  const checkboxInfo = {
+      Tipo: tipo,  // 3 = criterios de aceptacion
+      contenido: []
+  };
+
+  checkboxes.forEach(checkbox => {
+      const checkboxId = checkbox.id;
+      const textareaId = checkboxId.replace("check-", "textarea-");
+      const textareaValue = document.getElementById(textareaId).value;
+
+      // Agregar el contenido al array "contenido"
+      checkboxInfo.contenido.push(textareaValue);
+  });
+
+  return checkboxInfo;
+}
+
 
   function mostrarToast(message) {
     const toast = document.getElementById('toast');
